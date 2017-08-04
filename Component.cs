@@ -11,6 +11,17 @@
 			protected internal set => ent = value;
 		}
 
+		public bool SetEnt(Entity nent) {
+			if (nent != null) {
+				try { nent.Add(this); }
+				catch (ArgumentException) { return false; }
+				return true;
+			}
+			Entity prevEnt = Entity;
+			prevEnt.Rem(Name);
+			return true;
+		}
+
 		public override string ToString() {
 			return Name + " : " + Entity;
 		}

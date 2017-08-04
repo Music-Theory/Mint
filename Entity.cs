@@ -20,6 +20,28 @@
 
 		Dictionary<string, Component> components = new Dictionary<string, Component>();
 
+		uint key;
+
+		Pool pool;
+
+		public Pool Pool {
+			get => pool;
+			protected internal set => throw new NotImplementedException();
+		}
+
+		public uint Key {
+			get => key;
+			protected internal set => key = value;
+		}
+
+		public Entity() { }
+
+		public Entity(params Component[] comps) {
+			foreach (Component comp in comps) {
+				Add(comp);
+			}
+		}
+
 		/// <summary>
 		/// Gets component of specified type contained by this entity. Returns null if no such component.
 		/// </summary>
@@ -31,6 +53,10 @@
 			return components[name] as T;
 		}
 
+		public Component Get(string compType) {
+			return !components.ContainsKey(compType) ? null : components[compType];
+		}
+
 		public bool Contains<T>() where T : Component {
 			return Contains(typeof(T).Name);
 		}
@@ -40,17 +66,27 @@
 		}
 
 		public void Add(Component comp) {
-			if (comp == null) { throw new ArgumentException("Tried to add a null component to an entity."); }
+			if (comp == null) { throw new ArgumentNullException("Can't add a null component to an entity."); }
 			if (Contains(comp.Name)) { throw new ArgumentException("Entity already contains component of type " + comp.Name); }
 			components.Add(comp.Name, comp);
 			Entity prevEnt = comp.Entity;
 			comp.Entity = this;
+			prevEnt?.RemovedComp?.Invoke(prevEnt, new CompEventArgs(prevEnt, comp));
 			AddedComp?.Invoke(this, new CompEventArgs(prevEnt, comp));
 		}
 
 		public T Rem<T>() where T : Component {
-			if (!Contains<T>()) { throw new ArgumentException("Entity does not contain a component of that type."); }
 			T comp = Get<T>();
+			if (comp == null) { throw new ArgumentNullException("Entity does not contain a component of that type."); }
+			components.Remove(comp.Name);
+			comp.Entity = null;
+			RemovedComp?.Invoke(this, new CompEventArgs(this, comp));
+			return comp;
+		}
+
+		public Component Rem(string compType) {
+			Component comp = Get(compType);
+			if (comp == null) { throw new ArgumentNullException("Entity does not contain component of that type."); }
 			components.Remove(comp.Name);
 			comp.Entity = null;
 			RemovedComp?.Invoke(this, new CompEventArgs(this, comp));
