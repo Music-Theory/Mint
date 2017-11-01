@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mint", "Mint.csproj", "{95D15362-8771-4029-B32C-E9C3FB80DB15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Walker", "Walker\Walker\Walker.csproj", "{9F7DE4DF-6E6A-4DA8-B4C1-9A79480DFE89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95D15362-8771-4029-B32C-E9C3FB80DB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95D15362-8771-4029-B32C-E9C3FB80DB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95D15362-8771-4029-B32C-E9C3FB80DB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95D15362-8771-4029-B32C-E9C3FB80DB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F7DE4DF-6E6A-4DA8-B4C1-9A79480DFE89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F7DE4DF-6E6A-4DA8-B4C1-9A79480DFE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F7DE4DF-6E6A-4DA8-B4C1-9A79480DFE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F7DE4DF-6E6A-4DA8-B4C1-9A79480DFE89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
