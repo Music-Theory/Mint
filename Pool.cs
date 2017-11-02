@@ -31,7 +31,7 @@
 			get => Contains(key) ? entities[key] : null;
 		}
 
-		public void Add(Entity ent) {
+		public uint Add(Entity ent) {
 			if (ent == null) { throw new ArgumentNullException("Can't add a null entity to a pool."); }
 			Pool prevPool = ent.Pool;
 			uint prevKey = ent.Key;
@@ -44,6 +44,7 @@
 			prevPool?.Unsub(ent);
 			prevPool?.RemovedEnt?.Invoke(prevPool, new EntEventArgs(prevPool, prevKey, ent));
 			AddedEnt?.Invoke(this, new EntEventArgs(prevPool, prevKey, ent));
+			return ent.Key;
 		}
 
 		void Sub(Entity ent) {
