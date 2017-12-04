@@ -26,5 +26,7 @@
 			return Name + " : " + Entity;
 		}
 
+		public virtual void OnAdded(Entity to) { }
+		public virtual void OnRemoved(Entity from) { }
 	}
 }

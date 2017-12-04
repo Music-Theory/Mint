@@ -88,7 +88,7 @@
 		}
 
 		bool IsValid(Entity ent) {
-			return compTypes.All(ent.Contains);
+			return compTypes.All(ent.Has);
 		}
 
 		void Sub(Pool pool) {

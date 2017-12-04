@@ -26,7 +26,11 @@
 
 		public Pool Pool {
 			get => pool;
-			protected internal set => throw new NotImplementedException();
+			protected internal set {
+				if (pool != null) { throw new NotImplementedException(); }
+
+				pool = value;
+			}
 		}
 
 		public uint Key {
@@ -57,21 +61,23 @@
 			return !components.ContainsKey(compType) ? null : components[compType];
 		}
 
-		public bool Contains<T>() where T : Component {
-			return Contains(typeof(T).Name);
+		public bool Has<T>() where T : Component {
+			return Has(typeof(T).Name);
 		}
 
-		public bool Contains(string compType) {
+		public bool Has(string compType) {
 			return components.ContainsKey(compType);
 		}
 
 		public void Add(Component comp) {
 			if (comp == null) { throw new ArgumentNullException("Can't add a null component to an entity."); }
-			if (Contains(comp.Name)) { throw new ArgumentException("Entity already contains component of type " + comp.Name); }
+			if (Has(comp.Name)) { throw new ArgumentException("Entity already contains component of type " + comp.Name); }
 			components.Add(comp.Name, comp);
 			Entity prevEnt = comp.Entity;
 			comp.Entity = this;
+			comp.OnRemoved(prevEnt);
 			prevEnt?.RemovedComp?.Invoke(prevEnt, new CompEventArgs(prevEnt, comp));
+			comp.OnAdded(this);
 			AddedComp?.Invoke(this, new CompEventArgs(prevEnt, comp));
 		}
 
@@ -80,6 +86,7 @@
 			if (comp == null) { throw new ArgumentNullException("Entity does not contain a component of that type."); }
 			components.Remove(comp.Name);
 			comp.Entity = null;
+			comp.OnRemoved(this);
 			RemovedComp?.Invoke(this, new CompEventArgs(this, comp));
 			return comp;
 		}
@@ -89,6 +96,7 @@
 			if (comp == null) { throw new ArgumentNullException("Entity does not contain component of that type."); }
 			components.Remove(comp.Name);
 			comp.Entity = null;
+			comp.OnRemoved(this);
 			RemovedComp?.Invoke(this, new CompEventArgs(this, comp));
 			return comp;
 		}

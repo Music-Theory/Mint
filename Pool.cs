@@ -37,7 +37,6 @@
 			uint prevKey = ent.Key;
 			prevPool?.Rem(ent, true);
 			ent.Key = cKey++;
-			entities[ent.Key] = ent;
 			ent.Pool = this;
 			entities.Add(ent.Key, ent);
 			Sub(ent);
